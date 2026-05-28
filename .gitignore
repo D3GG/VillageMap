@@ -19,7 +19,6 @@ CMakeCache.txt
 CMakeFiles/
 cmake_install.cmake
 Makefile
-CMakeLists.txt
 
 # IDE folders
 .vscode/
@@ -32,4 +31,3 @@ Thumbs.db
 
 # Logs
 *.log
-
