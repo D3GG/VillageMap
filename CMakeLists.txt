@@ -14,9 +14,7 @@ file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
 )
 
-add_executable(VillageMap ${SOURCES}
-        src/Landmark.cpp
-        src/Landmark.h)
+add_executable(VillageMap ${SOURCES})
 
 target_include_directories(VillageMap PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/src"
