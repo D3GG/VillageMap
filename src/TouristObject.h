@@ -3,20 +3,22 @@
 #include <string>
 
 class TouristObject {
-   protected:
+private:
     int id;
     std::string name;
     std::string description;
     double rating;
     double price;
 
-   public:
-    TouristObject(int id, const std::string& name, const std::string& description, double rating, double price);
+public:
+    TouristObject(int id, const std::string& name, const std::string& description, double rating,
+                  double price);
 
     virtual ~TouristObject() = default;
 
     int getId() const;
     std::string getName() const;
+    std::string getDescription() const;
     double getRating() const;
     double getPrice() const;
 
