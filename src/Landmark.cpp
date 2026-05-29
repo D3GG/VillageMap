@@ -11,11 +11,8 @@ using std::string;
 
 Landmark::Landmark(int id, const std::string& name, const std::string& description, double rating,
                    double price, const std::string& historicalPeriod, bool hasGuide)
-    : TouristObject(id, name, description, rating, price), historicalPeriod(historicalPeriod),
-      hasGuide(hasGuide) {
-    if (historicalPeriod.empty()) {
-        throw std::invalid_argument("Historical period cannot be empty.");
-    }
+    : TouristObject(id, name, description, rating, price), hasGuide(hasGuide) {
+    setHistoricalPeriod(historicalPeriod);
 }
 
 std::string Landmark::getHistoricalPeriod() const {
