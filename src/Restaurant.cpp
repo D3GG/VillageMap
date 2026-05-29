@@ -90,7 +90,6 @@ void Restaurant::updateFromInput() {
     std::getline(cin, newName);
     setName(newName);
 
-
     cout << "Enter new description (current: " << getDescription() << "): ";
     std::getline(cin, newDescription);
     setDescription(newDescription);
