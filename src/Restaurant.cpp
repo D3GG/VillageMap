@@ -9,13 +9,10 @@ using std::cout;
 using std::endl;
 using std::string;
 
-Restaurant::Restaurant(int id, const std::string& name, const std::string& description, double rating,
-                       double price, const std::string& cuisineType, bool hasLocalFood)
-    : TouristObject(id, name, description, rating, price), cuisineType(cuisineType),
-      hasLocalFood(hasLocalFood) {
-    if (cuisineType.empty()) {
-        throw std::invalid_argument("Cuisine type cannot be empty.");
-    }
+Restaurant::Restaurant(int id, const string& name, const string& description, double rating,
+                       double price, const string& cuisineType, bool hasLocalFood)
+    : TouristObject(id, name, description, rating, price), hasLocalFood(hasLocalFood) {
+    setCuisineType(cuisineType);
 }
 
 std::string Restaurant::getCuisineType() const {

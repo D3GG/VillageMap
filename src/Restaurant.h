@@ -12,7 +12,7 @@ public:
     Restaurant(int id, const std::string& name, const std::string& description, double rating,
                double price, const std::string& cuisineType, bool hasLocalFood);
 
-    ~Restaurant() = default;
+    ~Restaurant() override = default;
 
     std::string getCuisineType() const;
     bool getHasLocalFood() const;
