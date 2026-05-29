@@ -12,7 +12,7 @@ public:
     CraftWorkshop(int id, const std::string& name, const std::string& description, double rating,
                     double price, const std::string& craftType, bool hasDemonstration);
 
-    ~CraftWorkshop() = default;
+    ~CraftWorkshop() override = default;
 
     std::string getCraftType() const;
     bool getHasDemonstration() const;

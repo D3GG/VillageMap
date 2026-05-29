@@ -13,7 +13,7 @@ public:
     Festival(int id, const std::string& name, const std::string& description, double rating,
             double price, const std::string& date, const std::string& theme, bool isAnnual);
 
-    ~Festival() = default;
+    ~Festival() override = default;
 
     std::string getDate() const;
     std::string getTheme() const;
