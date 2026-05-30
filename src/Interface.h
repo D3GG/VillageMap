@@ -21,10 +21,11 @@ enum CommandType {
     Filter,
     Report,
     Save,
-    Close
+    Close,
+    Unknown
 };
 
-enum MenuStates { Base, Inner, Both };
+enum MenuStates { Base, Inner, Both, Unknown1};
 
 struct CommandInfo {
     std::string name;
@@ -45,8 +46,9 @@ struct ParsedCommand {
     std::string errMsg;
 };
 
-// menus
-void printMenu(MenuStates state);
+MenuStates stringToMenuState(const std::string token);
+
+CommandType stringToCmdType(const std::string token);
 
 // sanitizer - mby
 
@@ -54,7 +56,7 @@ void printMenu(MenuStates state);
 std::vector<std::string> tokenize(const std::string& inputLn);
 
 // parser
-void parseTokens(const std::vector<std::string>& tokens);
+ParsedCommand parseTokens(const std::vector<std::string>& tokens);
 
 // executor
 void executeCommand(ParsedCommand command);
