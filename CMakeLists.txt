@@ -18,7 +18,9 @@ add_executable(VillageMap ${SOURCES}
         src/EcoPath.cpp
         src/EcoPath.h
         src/GuestHouse.cpp
-        src/GuestHouse.h)
+        src/GuestHouse.h
+        src/Settlement.cpp
+        src/Settlement.h)
 
 target_include_directories(VillageMap PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/src"
