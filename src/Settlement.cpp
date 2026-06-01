@@ -1,10 +1,12 @@
 #include "Settlement.h"
 #include <iostream>
 #include <stdexcept>
+#include <sstream>
 
 #include <string>
 using std::cout;
 using std::string;
+
 
 Settlement::Settlement(const std::string& name, const std::string& region, int population,
                        const std::string& description) {
@@ -119,4 +121,16 @@ void Settlement::showObjectById(int id) const {
     }
 
     object->printFullInfo();
+}
+
+std::string Settlement::serialize() const {
+    std::ostringstream out;
+
+    out << "Settlement" << "|"
+        << name << "|"
+        << region << "|"
+        << population << "|"
+        << description;
+
+    return out.str();
 }
