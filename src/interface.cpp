@@ -1,15 +1,19 @@
 #include "Interface.h"
 #include <iostream>
 #include <sstream>
+#include <stdexcept>
 
 namespace Interface {
+
+#define CMD_COUNT 15
 CommandInfo commands[] = {
     {"create", CommandType::Create, "Creates a new file", "create <file_name>", 1, 1,
      MenuStates::Base},
     {"load", CommandType::Load, "Loads an existing file", "load <file_name>", 1, 1,
      MenuStates::Base},
-    {"help", CommandType::Help, "Print all available commands and their usage", "help", 0, 0,
-     MenuStates::Both},
+    {"help", CommandType::Help,
+     "Print all available commands and their usage or just for a specified command",
+     "help or help <cmd>", 0, 1, MenuStates::Both},
     {"exit", CommandType::Exit, "Exits the program", "exit", 0, 0, MenuStates::Base},
     {"info", CommandType::Info, "Print information about the Settlement", "info", 0, 0,
      MenuStates::Inner},
@@ -82,39 +86,124 @@ MenuStates stringToMenuState(const std::string token) {
 }
 
 ParsedCommand parseTokens(const std::vector<std::string>& tokens, MenuStates state) {
-    ParsedCommand newCommand;
     if (tokens.empty()) {
-        newCommand.valid = false;
-        newCommand.errMsg = "Empty command";
-        return newCommand;
+        throw std::runtime_error("Empty command");
     }
 
     CommandType type = stringToCmdType(tokens.at(0));
-    newCommand.type = type;
-    if (newCommand.type == Unknown) {
-        newCommand.valid = false;
-        newCommand.errMsg = "Unknown command";
-        return newCommand;
+
+    if (type == Unknown) {
+        throw std::runtime_error("Unknown command");
     }
 
+    ParsedCommand newCommand;
+    newCommand.type = type;
     newCommand.args = std::vector<std::string>(tokens.begin() + 1, tokens.end());
+
     if (newCommand.args.size() < commands[type].minArguments ||
         newCommand.args.size() > commands[type].maxArguments) {
-        newCommand.valid = false;
-        newCommand.errMsg = "Invalid number of arguments. Usage: " + commands[type].usage;
-        return newCommand;
+        throw std::runtime_error("Invalid number of arguments. Usage: " + commands[type].usage);
     }
 
     if (commands[type].allowedStates != Both && commands[type].allowedStates != state) {
-        newCommand.valid = false;
-        newCommand.errMsg = "Invalid state for such command";
-        return newCommand;
+        throw std::runtime_error("Invalid state for such command");
     }
 
-    newCommand.valid = true;
     return newCommand;
 }
 
+ExecutionResult executeCommand(ParsedCommand command, MenuStates state) {
+    switch (command.type) {
+    case CommandType::Create:
+        // command.args[0] = file name
+        return SwitchToInner;
+        break;
 
+    case CommandType::Load:
+        // command.args[0] = file name
+        return SwitchToInner;
+        break;
+
+    case CommandType::Help:
+        if (command.args.empty()) {
+            for (int i = 0; i < CMD_COUNT; i++) {
+                if (commands[i].allowedStates == state || commands[i].allowedStates == Both) {
+                    std::cout << commands[i].name << " - " << commands[i].usage << " "
+                              << commands[i].description << std::endl;
+                }
+            }
+            return;
+        }
+        std::cout << commands[stringToCmdType(command.args.front())].name << " - "
+                  << commands[stringToCmdType(command.args.front())].usage << " "
+                  << commands[stringToCmdType(command.args.front())].description << std::endl;
+        return Continue;
+        break;
+
+    case CommandType::Exit:
+        return ExitProgram;
+        break;
+
+    case CommandType::Info:
+        // print settlement info
+        return Continue;
+        break;
+
+    case CommandType::Add:
+        // start add logic
+        return Continue;
+        break;
+
+    case CommandType::List:
+        // list objects
+        return Continue;
+        break;
+
+    case CommandType::Show:
+        // show object by id/name
+        return Continue;
+        break;
+
+    case CommandType::Delete:
+        // delete object
+        return Continue;
+        break;
+
+    case CommandType::Update:
+        // update object
+        return Continue;
+        break;
+
+    case CommandType::Search:
+        // search objects
+        return Continue;
+        break;
+
+    case CommandType::Filter:
+        // filter objects
+        return Continue;
+        break;
+
+    case CommandType::Report:
+        // generate report
+        return Continue;
+        break;
+
+    case CommandType::Save:
+        // save current file
+        return Continue;
+        break;
+
+    case CommandType::Close:
+        // close current file
+        return SwitchToBase;
+        break;
+
+    default:
+        throw std::runtime_error("Executor received unknown command");
+    }
+
+    return;
+}
 
 } // namespace Interface

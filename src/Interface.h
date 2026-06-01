@@ -25,7 +25,9 @@ enum CommandType {
     Unknown
 };
 
-enum MenuStates { Base, Inner, Both, Unknown1};
+enum MenuStates { Base, Inner, Both, Unknown1 };
+
+enum ExecutionResult { Continue, ExitProgram, SwitchToBase, SwitchToInner };
 
 struct CommandInfo {
     std::string name;
@@ -42,8 +44,6 @@ extern CommandInfo commands[];
 struct ParsedCommand {
     CommandType type;
     std::vector<std::string> args;
-    bool valid;
-    std::string errMsg;
 };
 
 MenuStates stringToMenuState(const std::string token);
@@ -56,9 +56,9 @@ CommandType stringToCmdType(const std::string token);
 std::vector<std::string> tokenize(const std::string& inputLn);
 
 // parser
-ParsedCommand parseTokens(const std::vector<std::string>& tokens);
+ParsedCommand parseTokens(const std::vector<std::string>& tokens, MenuStates state);
 
 // executor
-void executeCommand(ParsedCommand command);
+ExecutionResult executeCommand(ParsedCommand command, MenuStates state);
 
 } // namespace Interface
