@@ -81,4 +81,40 @@ MenuStates stringToMenuState(const std::string token) {
     return Unknown1;
 }
 
+ParsedCommand parseTokens(const std::vector<std::string>& tokens, MenuStates state) {
+    ParsedCommand newCommand;
+    if (tokens.empty()) {
+        newCommand.valid = false;
+        newCommand.errMsg = "Empty command";
+        return newCommand;
+    }
+
+    CommandType type = stringToCmdType(tokens.at(0));
+    newCommand.type = type;
+    if (newCommand.type == Unknown) {
+        newCommand.valid = false;
+        newCommand.errMsg = "Unknown command";
+        return newCommand;
+    }
+
+    newCommand.args = std::vector<std::string>(tokens.begin() + 1, tokens.end());
+    if (newCommand.args.size() < commands[type].minArguments ||
+        newCommand.args.size() > commands[type].maxArguments) {
+        newCommand.valid = false;
+        newCommand.errMsg = "Invalid number of arguments. Usage: " + commands[type].usage;
+        return newCommand;
+    }
+
+    if (commands[type].allowedStates != Both && commands[type].allowedStates != state) {
+        newCommand.valid = false;
+        newCommand.errMsg = "Invalid state for such command";
+        return newCommand;
+    }
+
+    newCommand.valid = true;
+    return newCommand;
+}
+
+
+
 } // namespace Interface
