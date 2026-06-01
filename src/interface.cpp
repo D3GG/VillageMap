@@ -1,4 +1,5 @@
 #include "Interface.h"
+#include "Settlement.h"
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
@@ -151,6 +152,7 @@ ExecutionResult executeCommand(ParsedCommand command, MenuStates state) {
 
     case CommandType::Add:
         // start add logic
+        
         return Continue;
         break;
 
