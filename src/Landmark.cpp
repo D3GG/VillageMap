@@ -105,7 +105,7 @@ void Landmark::updateFromInput() {
         }
         else if (newRating < 0.0 || newRating > 5.0) {
             cin.ignore(1000, '\n');
-            cout << "Rating must be between 0 and 5. Try again.\n";
+            cout << "Rating must be between 0 and 5.\n";
         } 
         else {
             setRating(newRating);
