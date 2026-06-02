@@ -1,4 +1,6 @@
 #include "FileManager.h"
+#include "TouristObjFactory.h"
+
 #include <sstream>
 
 namespace FileManager {
@@ -44,11 +46,12 @@ Settlement loadFile(std::string fileName) {
 
     std::vector<std::string> settlementData;
     std::vector<std::string> touristObjData = removeDelimAndTokenize(line, settlementData);
-    Settlement newSettlement(settlementData.at(0), settlementData.at(1), std::stoi(settlementData.at(2)),
-                  settlementData.at(3));
+    Settlement newSettlement(settlementData.at(0), settlementData.at(1),
+                             std::stoi(settlementData.at(2)), settlementData.at(3));
 
-    // then pass the rest to a factory to generate valid tourst obj children to fill the vector in
-    // settlement
+    while (!touristObjData.empty()) {
+        newSettlement.addObject(TouristObjFactory::ChildObjFactory(touristObjData));
+    }
 
     input.close();
 }
