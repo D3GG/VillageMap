@@ -1,12 +1,14 @@
-# VillageMap — Architecture and Final Product Vision
+# VillageMap — Архитектура и визия за краен продукт
 
-## 1. Project Summary
+## 1. Обобщение на проекта
 
-**VillageMap** is a pure C++ command-line application for managing tourist information about small settlements in Bulgaria.
+**VillageMap** е конзолно приложение на C++ за управление на туристическа информация за малки населени места в България.
 
-The application works with local settlement files instead of a server or database. In a real-world version, this type of system would most likely communicate with a server or online database to retrieve and update village data. For this OOP course project, local files are used as a practical compromise. This keeps the project focused on object-oriented design, C++, STL, file handling, and a clear CLI workflow.
+Проектът е свързан с темата **„Развитие на малките населени места в България“**, като основната идея е да се създаде практичен инструмент, който представя туристическия потенциал на села и малки градове. Чрез приложението могат да се събират, съхраняват, търсят и анализират данни за забележителности, екопътеки, места за настаняване, ресторанти, фестивали и занаятчийски работилници.
 
-Each settlement is stored in its own file, for example:
+Приложението работи с локални файлове за всяко населено място, вместо със сървър или база данни. В реална версия подобна система най-вероятно би комуникирала със сървър или онлайн база данни, за да зарежда и обновява информация за населените места. За целите на курсовия проект по ООП локалните файлове са практичен компромис, защото позволяват проектът да остане фокусиран върху обектно-ориентирания дизайн, C++, STL, работа с файлове и ясен CLI работен процес.
+
+Всяко населено място се съхранява в отделен файл, например:
 
 ```text
 bozhentsi.vmap
@@ -14,38 +16,38 @@ shiroka_laka.vmap
 kovachevitsa.vmap
 ```
 
-Each file contains:
+Всеки файл съдържа:
 
-- general information about the settlement;
-- tourist objects connected to that settlement;
-- enough data to load, edit, save, search, and generate reports.
+- обща информация за населеното място;
+- туристически обекти, свързани с него;
+- достатъчно данни за зареждане, редактиране, записване, търсене и генериране на справки.
 
-The project is designed to demonstrate:
+Проектът е проектиран така, че да демонстрира:
 
-- abstraction;
-- encapsulation;
-- inheritance;
-- polymorphism;
-- composition;
-- separation of responsibilities;
-- file-based persistence.
+- абстракция;
+- капсулация;
+- наследяване;
+- полиморфизъм;
+- композиция;
+- разделяне на отговорностите;
+- съхранение на данни във файлове.
 
 ---
 
-## 2. Expected Final Product
+## 2. Очакван краен продукт
 
-The final product should behave like a small CLI tool, not just a numbered menu program.
+Крайният продукт трябва да се държи като малък CLI инструмент, а не само като програма с номерирано меню.
 
-The application has two main modes:
+Приложението има два основни режима:
 
-1. **Global mode** — used before a settlement is loaded.
-2. **Settlement mode** — used after a settlement file is created or loaded.
+1. **Глобален режим** — използва се преди да бъде заредено населено място.
+2. **Режим на населено място** — използва се след създаване или зареждане на файл за населено място.
 
-### 2.1 Global Mode
+### 2.1 Глобален режим
 
-When the application starts, no settlement is loaded yet.
+При стартиране на приложението все още няма заредено населено място.
 
-Example:
+Пример:
 
 ```text
 ===== VillageMap CLI =====
@@ -59,7 +61,7 @@ Global commands:
 >
 ```
 
-Example commands:
+Примерни команди:
 
 ```text
 > create Bozhentsi bozhentsi.vmap
@@ -69,17 +71,17 @@ Created settlement 'Bozhentsi' in file 'bozhentsi.vmap'.
 Loaded settlement file 'bozhentsi.vmap'.
 ```
 
-After `create` or `load`, the program enters settlement mode.
+След изпълнение на `create` или `load` програмата преминава в режим на населено място.
 
-### 2.2 Settlement Mode
+### 2.2 Режим на населено място
 
-When a settlement is loaded, the prompt changes:
+Когато населено място е заредено, командният ред се променя:
 
 ```text
 [Bozhentsi] >
 ```
 
-Expected commands:
+Очаквани команди:
 
 ```text
 info
@@ -97,7 +99,7 @@ help
 exit
 ```
 
-Example:
+Пример:
 
 ```text
 [Bozhentsi] > list
@@ -111,29 +113,29 @@ ID | Category   | Name                    | Rating
 
 ---
 
-## 3. High-Level Application Flow
+## 3. Основен поток на приложението
 
-This diagram shows the main user flow through the application.
+Следната диаграма показва основния потребителски поток в приложението.
 
 ```mermaid
 flowchart TD
-    A[Start Application] --> B[Global CLI Mode]
+    A[Стартиране на приложението] --> B[Глобален CLI режим]
 
-    B --> C{Global Command}
-    C -->|create| D[Create Settlement File]
-    C -->|load| E[Load Settlement File]
-    C -->|help| F[Show Global Help]
-    C -->|exit| Z[Exit Application]
+    B --> C{Глобална команда}
+    C -->|create| D[Създаване на файл за населено място]
+    C -->|load| E[Зареждане на файл за населено място]
+    C -->|help| F[Показване на помощ за глобалния режим]
+    C -->|exit| Z[Изход от приложението]
 
-    D --> G[Settlement CLI Mode]
+    D --> G[CLI режим на населено място]
     E --> G
 
-    G --> H{Settlement Command}
-    H -->|info| I[Show Settlement Info]
-    H -->|add / update / delete| J[Manage Tourist Objects]
-    H -->|list / show / search / filter| K[View Tourist Objects]
-    H -->|report| L[Generate Report]
-    H -->|save| M[Save Settlement File]
+    G --> H{Команда в режим на населено място}
+    H -->|info| I[Показване на информация за населеното място]
+    H -->|add / update / delete| J[Управление на туристически обекти]
+    H -->|list / show / search / filter| K[Преглед на туристически обекти]
+    H -->|report| L[Генериране на справка]
+    H -->|save| M[Записване на файл]
     H -->|close| B
     H -->|exit| Z
 
@@ -146,42 +148,42 @@ flowchart TD
 
 ---
 
-## 4. Main OOP Idea
+## 4. Основна ООП идея
 
-The most important OOP structure in the project is the `TouristObject` hierarchy.
+Най-важната ООП структура в проекта е йерархията `TouristObject`.
 
-`TouristObject` represents a general tourist object. Specific object types inherit from it and specialize it.
+`TouristObject` представя общ туристически обект. Конкретните видове туристически обекти наследяват този клас и го специализират.
 
 ```mermaid
 classDiagram
     class TouristObject {
         <<abstract>>
-        Common tourist object data
-        Common tourist object behavior
+        Общи данни за туристически обект
+        Общо поведение на туристически обект
     }
 
     class Landmark {
-        Historical / cultural / natural place
+        Историческо / културно / природно място
     }
 
     class EcoPath {
-        Hiking route or nature trail
+        Пешеходен маршрут или природна пътека
     }
 
     class GuestHouse {
-        Accommodation object
+        Място за настаняване
     }
 
     class Restaurant {
-        Local food place
+        Място за местна храна
     }
 
     class Festival {
-        Local event or festival
+        Местно събитие или фестивал
     }
 
     class CraftWorkshop {
-        Local craft or traditional production
+        Местен занаят или традиционно производство
     }
 
     TouristObject <|-- Landmark
@@ -192,209 +194,209 @@ classDiagram
     TouristObject <|-- CraftWorkshop
 ```
 
-The purpose of this hierarchy is to let the application store and process different tourist object types through one common abstraction.
+Целта на тази йерархия е приложението да може да съхранява и обработва различни видове туристически обекти чрез една обща абстракция.
 
-For example, a settlement can contain landmarks, eco paths, guest houses, restaurants, festivals, and craft workshops in the same collection. The application does not need to know the exact type of every object when listing, saving, searching, or generating reports.
+Например едно населено място може да съдържа забележителности, екопътеки, къщи за гости, ресторанти, фестивали и занаятчийски работилници в една обща колекция. Приложението не трябва да знае точния тип на всеки обект, когато ги изброява, записва, търси или използва за генериране на справки.
 
 ---
 
-## 5. Full System Relationship
+## 5. Обща връзка между компонентите на системата
 
-This diagram shows the relationship between the main parts of the system.
+Следната диаграма показва връзката между основните части на системата.
 
 ```mermaid
 classDiagram
     class Application {
-        CLI controller
-        Command handling
-        Current settlement session
+        CLI контролер
+        Обработка на команди
+        Текуща сесия с населено място
     }
 
     class Settlement {
-        Settlement information
-        Collection of tourist objects
-        Settlement-level operations
+        Информация за населено място
+        Колекция от туристически обекти
+        Операции на ниво населено място
     }
 
     class TouristObject {
         <<abstract>>
-        Shared tourist object abstraction
+        Обща абстракция за туристически обект
     }
 
     class FileManager {
-        Save settlement files
-        Load settlement files
+        Записване на файлове
+        Зареждане на файлове
     }
 
     class ReportGenerator {
-        Create settlement reports
-        Summarize tourism potential
+        Създаване на справки
+        Обобщаване на туристически потенциал
     }
 
     class Route {
-        Tourist route made from existing objects
+        Туристически маршрут от съществуващи обекти
     }
 
-    Application --> Settlement : manages active settlement
-    Application --> FileManager : uses for save/load
-    Application --> ReportGenerator : uses for reports
-    Settlement o-- TouristObject : owns many
-    Route --> TouristObject : references selected objects
-    FileManager --> Settlement : reads/writes
-    ReportGenerator --> Settlement : analyzes
+    Application --> Settlement : управлява активното населено място
+    Application --> FileManager : използва за запис/зареждане
+    Application --> ReportGenerator : използва за справки
+    Settlement o-- TouristObject : притежава много обекти
+    Route --> TouristObject : реферира избрани обекти
+    FileManager --> Settlement : чете/записва
+    ReportGenerator --> Settlement : анализира
 ```
 
 ---
 
-## 6. Class Responsibilities
+## 6. Отговорности на класовете
 
 ### 6.1 `Application`
 
-The `Application` class controls the CLI interface.
+Класът `Application` управлява CLI интерфейса.
 
-It is responsible for:
+Той отговаря за:
 
-- starting and stopping the program;
-- reading commands from the user;
-- switching between global mode and settlement mode;
-- keeping track of the currently loaded settlement;
-- calling the correct part of the program depending on the command.
+- стартиране и спиране на програмата;
+- четене на команди от потребителя;
+- превключване между глобален режим и режим на населено място;
+- следене кое населено място е заредено в момента;
+- извикване на правилната част от програмата според въведената команда.
 
-This class should act as the coordinator of the application. It should not contain the detailed logic of tourist objects, reports, or file parsing.
+Този клас трябва да действа като координатор на приложението. Той не трябва да съдържа подробната логика за туристическите обекти, справките или обработката на файловете.
 
 ---
 
 ### 6.2 `Settlement`
 
-The `Settlement` class represents one village or small town.
+Класът `Settlement` представя едно село или малък град.
 
-It is responsible for storing:
+Той съхранява:
 
-- name;
-- region;
-- population;
-- short description;
-- all tourist objects connected to the settlement.
+- име;
+- област или регион;
+- население;
+- кратко описание;
+- всички туристически обекти, свързани с населеното място.
 
-It should also handle settlement-level operations, such as adding, removing, finding, filtering, and listing tourist objects.
+Класът трябва да управлява операции на ниво населено място, като добавяне, премахване, намиране, филтриране и изброяване на туристически обекти.
 
-The settlement is the central data model of the application.
+`Settlement` е централният модел от данни в приложението.
 
 ---
 
 ### 6.3 `TouristObject`
 
-`TouristObject` is the abstract base class for all tourist attractions and tourism-related services.
+`TouristObject` е абстрактният базов клас за всички туристически атракции и услуги, свързани с туризма.
 
-It stores the information that all tourist objects have in common, such as:
+Той съхранява информацията, която всички туристически обекти имат общо, например:
 
 - id;
-- name;
-- description;
-- rating;
-- price or access cost.
+- име;
+- описание;
+- рейтинг;
+- цена или такса за достъп.
 
-It also defines what every tourist object must be able to do in the system, such as:
+Освен това дефинира какво трябва да може да прави всеки туристически обект в системата, например:
 
-- identify its category;
-- display short and detailed information;
-- provide data for saving to a file;
-- update its own specific information;
-- participate in reports and ranking.
+- да определя своята категория;
+- да показва кратка и подробна информация;
+- да предоставя данни за записване във файл;
+- да обновява собствената си специфична информация;
+- да участва в справки и класации.
 
-This is the most important class for demonstrating inheritance and polymorphism.
+Това е най-важният клас за демонстриране на наследяване и полиморфизъм.
 
 ---
 
-### 6.4 Tourist Object Child Classes
+### 6.4 Дъщерни класове на `TouristObject`
 
-Each child class represents a specific type of tourist object.
+Всеки дъщерен клас представя конкретен тип туристически обект.
 
-| Class | Purpose | Example Data |
+| Клас | Предназначение | Примерни данни |
 |---|---|---|
-| `Landmark` | Cultural, historical, or natural sights | historical period, guide availability |
-| `EcoPath` | Hiking routes and nature trails | length, difficulty, duration |
-| `GuestHouse` | Accommodation in the settlement | capacity, price per night, parking |
-| `Restaurant` | Local food places | cuisine type, local food availability |
-| `Festival` | Local events and traditions | date, theme, annual status |
-| `CraftWorkshop` | Local crafts and traditional production | craft type, demonstrations |
+| `Landmark` | Културни, исторически или природни забележителности | исторически период, наличие на екскурзовод |
+| `EcoPath` | Пешеходни маршрути и природни пътеки | дължина, трудност, продължителност |
+| `GuestHouse` | Настаняване в населеното място | капацитет, цена на нощувка, паркинг |
+| `Restaurant` | Места за местна храна | тип кухня, наличие на местни ястия |
+| `Festival` | Местни събития и традиции | дата, тема, ежегодност |
+| `CraftWorkshop` | Местни занаяти и традиционно производство | тип занаят, демонстрации |
 
-These classes should share the same general interface through `TouristObject`, but each one should store and manage its own specific details.
+Тези класове трябва да споделят общ интерфейс чрез `TouristObject`, но всеки от тях трябва да съхранява и управлява собствените си специфични данни.
 
 ---
 
 ### 6.5 `FileManager`
 
-`FileManager` handles file input and output.
+`FileManager` управлява входа и изхода от файлове.
 
-It is responsible for:
+Той отговаря за:
 
-- loading settlement files;
-- saving settlement files;
-- reading file data;
-- writing file data;
-- recreating the correct tourist object types from stored text.
+- зареждане на файлове за населени места;
+- записване на файлове за населени места;
+- четене на данни от файл;
+- записване на данни във файл;
+- възстановяване на правилните типове туристически обекти от съхранения текст.
 
-This keeps file handling separate from the CLI and from the object model.
+Така обработката на файловете остава отделена от CLI интерфейса и от моделите на обектите.
 
 ---
 
 ### 6.6 `ReportGenerator`
 
-`ReportGenerator` creates reports about a settlement.
+`ReportGenerator` създава справки за дадено населено място.
 
-A report can include:
+Една справка може да включва:
 
-- basic settlement information;
-- number of tourist objects;
-- object categories;
-- average rating;
-- tourism potential;
-- simple recommendations.
+- основна информация за населеното място;
+- брой туристически обекти;
+- категории обекти;
+- среден рейтинг;
+- оценка на туристическия потенциал;
+- кратки препоръки.
 
-The purpose of this class is to keep reporting logic separate from the settlement and application classes.
+Целта на този клас е логиката за справки да бъде отделена от `Settlement` и `Application`.
 
 ---
 
 ### 6.7 `Route`
 
-`Route` represents a tourist route made from already existing tourist objects.
+`Route` представя туристически маршрут, съставен от вече съществуващи туристически обекти.
 
-This is an optional or later-stage feature.
+Това е опционална или по-късна функционалност.
 
-A route can contain selected tourist objects from a settlement and present them as a planned visit route. The route should not own these objects; it should only reference objects that already exist inside the settlement.
+Маршрутът може да съдържа избрани туристически обекти от дадено населено място и да ги представя като планиран маршрут за посещение. `Route` не трябва да притежава тези обекти, а само да реферира обекти, които вече съществуват в `Settlement`.
 
 ---
 
-## 7. Polymorphism in the Project
+## 7. Полиморфизъм в проекта
 
-The main use of polymorphism is that the application can work with different tourist object types through the shared `TouristObject` abstraction.
+Основната употреба на полиморфизъм е възможността приложението да работи с различни типове туристически обекти чрез общата абстракция `TouristObject`.
 
-For example, when the user lists all tourist objects, the settlement may contain a mix of landmarks, eco paths, guest houses, restaurants, festivals, and craft workshops. The application can still ask each object to display itself without knowing its exact type.
+Например, когато потребителят изброява всички туристически обекти, населеното място може да съдържа смес от забележителности, екопътеки, къщи за гости, ресторанти, фестивали и занаятчийски работилници. Приложението пак може да поиска от всеки обект да покаже информация за себе си, без да знае точния му конкретен тип.
 
 ```mermaid
 sequenceDiagram
-    participant User
+    participant User as Потребител
     participant Application
     participant Settlement
     participant TouristObject
 
     User->>Application: list
-    Application->>Settlement: request tourist objects
-    Settlement->>TouristObject: display object information
-    TouristObject-->>Settlement: each child type responds in its own way
-    Settlement-->>Application: list is shown to the user
+    Application->>Settlement: заявка за туристическите обекти
+    Settlement->>TouristObject: показване на информация за обектите
+    TouristObject-->>Settlement: всеки дъщерен тип отговаря по свой начин
+    Settlement-->>Application: списъкът се показва на потребителя
 ```
 
-This is the practical reason for using an abstract base class instead of storing everything as plain text or as one large structure.
+Това е практическата причина да се използва абстрактен базов клас, вместо всичко да се съхранява като обикновен текст или като една голяма структура.
 
 ---
 
-## 8. File-Based Data Storage
+## 8. Съхранение на данните във файлове
 
-Each settlement is saved in a separate `.vmap` file.
+Всяко населено място се записва в отделен `.vmap` файл.
 
-Example file:
+Примерен файл:
 
 ```text
 SETTLEMENT|Bozhentsi|Gabrovo|105|Historical village with traditional Bulgarian architecture.
@@ -403,35 +405,35 @@ ECOPATH|2|Forest Trail|Short nature route near the village.|4.4|0|3.5|2|90
 GUESTHOUSE|3|Guest House Kalina|Family guest house.|4.7|60|12|60|1
 ```
 
-The exact format can be adjusted during implementation, but it should remain simple, readable, and easy to parse with standard C++ tools.
+Точният формат може да бъде променен по време на разработката, но трябва да остане прост, четим и лесен за обработка със стандартни C++ средства.
 
-A text-based file format is enough for the project because the goal is not to build a database, but to demonstrate persistence and object reconstruction.
+Текстовият файлов формат е достатъчен за проекта, защото целта не е да се изгради база данни, а да се демонстрират съхранение на данни и възстановяване на обекти.
 
 ---
 
-## 9. Data Flow
+## 9. Поток на данните
 
-This diagram shows how data moves between files and runtime objects.
+Следната диаграма показва как данните се движат между файловете и обектите по време на изпълнение.
 
 ```mermaid
 flowchart LR
-    A[Settlement .vmap File] -->|load| B[FileManager]
+    A[Settlement .vmap файл] -->|load| B[FileManager]
     B --> C[Settlement]
-    C --> D[TouristObject Collection]
+    C --> D[Колекция от TouristObject]
 
     D --> E[Landmark]
     D --> F[EcoPath]
     D --> G[GuestHouse]
-    D --> H[Other Object Types]
+    D --> H[Други типове обекти]
 
-    C -->|report data| I[ReportGenerator]
-    C -->|save changes| B
+    C -->|данни за справка| I[ReportGenerator]
+    C -->|запис на промени| B
     B -->|write| A
 ```
 
 ---
 
-## 10. Recommended Project File Structure
+## 10. Препоръчителна файлова структура на проекта
 
 ```text
 VillageMap/
@@ -482,55 +484,55 @@ VillageMap/
 
 ---
 
-## 11. Minimum Working Version
+## 11. Минимална работеща версия
 
-The minimum working version should include:
+Минималната работеща версия трябва да включва:
 
-- global CLI mode;
-- settlement CLI mode;
-- creating a settlement file;
-- loading a settlement file;
-- saving a settlement file;
-- a settlement model;
-- an abstract tourist object model;
-- at least three tourist object types:
+- глобален CLI режим;
+- CLI режим на населено място;
+- създаване на файл за населено място;
+- зареждане на файл за населено място;
+- записване на файл за населено място;
+- модел на населено място;
+- абстрактен модел на туристически обект;
+- поне три вида туристически обекти:
   - `Landmark`;
   - `EcoPath`;
   - `GuestHouse`;
-- adding tourist objects;
-- listing tourist objects;
-- showing details for one tourist object;
-- deleting tourist objects.
+- добавяне на туристически обекти;
+- изброяване на туристически обекти;
+- показване на подробности за един туристически обект;
+- изтриване на туристически обекти.
 
-This version is enough to demonstrate the core OOP architecture and the basic purpose of the application.
+Тази версия е достатъчна, за да демонстрира основната ООП архитектура и основната цел на приложението.
 
 ---
 
-## 12. Full Final Version
+## 12. Пълна финална версия
 
-The full version should include:
+Пълната версия трябва да включва:
 
-- all minimum version features;
-- all planned tourist object types:
+- всички функционалности от минималната версия;
+- всички планирани типове туристически обекти:
   - `Landmark`;
   - `EcoPath`;
   - `GuestHouse`;
   - `Restaurant`;
   - `Festival`;
   - `CraftWorkshop`;
-- updating existing objects;
-- searching by name;
-- filtering by category;
-- generating a tourism report;
-- calculating basic tourism potential;
-- optional tourist route creation;
-- sample data files;
-- project documentation;
-- diagrams for explanation and presentation.
+- редактиране на съществуващи обекти;
+- търсене по име;
+- филтриране по категория;
+- генериране на туристическа справка;
+- изчисляване на базов туристически потенциал;
+- опционално създаване на туристически маршрути;
+- примерни файлове с данни;
+- проектна документация;
+- диаграми за обяснение и презентация.
 
 ---
 
-## 13. Example Final CLI Session
+## 13. Примерна финална CLI сесия
 
 ```text
 ===== VillageMap CLI =====
@@ -601,35 +603,69 @@ Settlement closed.
 
 ---
 
-## 14. Why This Architecture Fits the Course
+## 14. Защо тази архитектура отговаря на изискванията на курса
 
-This architecture is suitable for an OOP course because it clearly demonstrates:
+Тази архитектура е подходяща за курс по ООП, защото ясно демонстрира:
 
-- an abstract base class;
-- multiple child classes;
-- polymorphism through a shared base type;
-- object ownership through the settlement model;
-- separation between CLI, file handling, reporting, and data models;
-- file-based persistence;
-- realistic project structure.
+- абстрактен базов клас;
+- няколко дъщерни класа;
+- полиморфизъм чрез общ базов тип;
+- притежание на обекти чрез модела `Settlement`;
+- разделение между CLI интерфейс, работа с файлове, справки и модели на данни;
+- съхранение на данни във файлове;
+- реалистична структура на C++ проект.
 
-The project remains pure C++ and does not require servers, databases, graphics, or external libraries.
+Проектът остава изцяло на C++ и не изисква сървъри, бази данни, графичен интерфейс или външни библиотеки.
 
 ---
 
-## 15. Future Improvements
+## 15. Връзка с темата „Развитие на малките населени места в България“
 
-These features are not required for the course version, but can be mentioned during the presentation:
+Проектът подпомага развитието на малките населени места, като предлага начин техните туристически ресурси да бъдат описани, организирани и представени по структуриран начин.
 
-- server-based database;
-- web interface;
-- map integration;
-- photos for tourist objects;
-- user reviews;
-- route optimization;
-- multilingual support;
-- mobile application;
-- connection with municipality websites.
+Много села и малки градове имат културни, природни и исторически предимства, но често те не са достатъчно добре представени в дигитална форма. VillageMap решава този проблем чрез модел, в който всяко населено място може да има собствен профил, туристически обекти, справки и препоръки.
 
-These are future ideas only. The current implementation stays focused on C++ and OOP.
+Приложението е актуално, защото туризмът, местните занаяти, природните маршрути и културните събития могат да създадат икономическа активност в малките населени места. Дори като учебен CLI проект, VillageMap показва как една по-голяма реална система би могла да подпомага популяризирането на такива места.
 
+---
+
+## 16. Име и мото на екипа
+
+Примерно име на екипа:
+
+```text
+Team RevivalMap
+```
+
+Примерно мото:
+
+```text
+„Малките места имат големи истории.“
+```
+
+Други възможни варианти:
+
+| Име на екип | Мото |
+|---|---|
+| `Village Vision` | „Откриваме потенциала на забравените места.“ |
+| `Rural Roots` | „Пазим корените, развиваме бъдещето.“ |
+| `Bulgaria Beyond Cities` | „България не свършва с големите градове.“ |
+| `Small Places, Big Future` | „Малко място, голяма възможност.“ |
+
+---
+
+## 17. Бъдещи подобрения
+
+Тези функционалности не са задължителни за курсовата версия, но могат да бъдат споменати по време на презентацията:
+
+- сървърна база данни;
+- уеб интерфейс;
+- интеграция с карта;
+- снимки за туристическите обекти;
+- потребителски оценки и ревюта;
+- оптимизация на маршрути;
+- многоезична поддръжка;
+- мобилно приложение;
+- връзка със сайтове на общини.
+
+Това са само бъдещи идеи. Текущата реализация остава фокусирана върху C++ и ООП.
