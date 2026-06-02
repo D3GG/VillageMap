@@ -1,4 +1,4 @@
-#include "application.h"
+#include "Application.h"
 
 #include "CraftWorkshop.h"
 #include "EcoPath.h"
