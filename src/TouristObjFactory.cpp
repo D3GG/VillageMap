@@ -80,6 +80,18 @@ double readDouble(const std::string& prompt) {
     }
 }
 
+double readRating(const std::string& prompt) {
+    while (true) {
+        double rating = readDouble(prompt);
+
+        if (rating >= 0.0 && rating <= 5.0) {
+            return rating;
+        }
+
+        std::cout << "Rating must be between 0 and 5.\n";
+    }
+}
+
 bool readBool(const std::string& prompt) {
     while (true) {
         std::string value = toLower(readRequiredLine(prompt));
@@ -112,7 +124,7 @@ CommonFields readCommonFields(int id) {
 
     fields.name = readRequiredLine("Name: ");
     fields.description = readRequiredLine("Description: ");
-    fields.rating = readDouble("Rating (0-5): ");
+    fields.rating = readRating("Rating (0-5): ");
     fields.price = readDouble("Price: ");
 
     return fields;
