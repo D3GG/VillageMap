@@ -27,7 +27,9 @@ std::vector<std::string> removeDelimAndTokenize(const std::string& input,
                 index++;
                 continue;
             }
+            index++;
             settlementData.push_back(currToken);
+            continue;
         }
 
         touristObjData.push_back(currToken);
@@ -54,9 +56,10 @@ Settlement loadFile(std::string fileName) {
     }
 
     input.close();
+    return newSettlement;
 }
 
-void saveFile(std::string fileName, Settlement settlement) {
+void saveFile(std::string fileName, Settlement& settlement) {
     std::ofstream output(fileName);
     if (!output.is_open()) {
         throw std::runtime_error("Failed to create a file");
