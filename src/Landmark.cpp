@@ -87,39 +87,62 @@ void Landmark::updateFromInput() {
     double newPrice;
     char guideChoice;
 
-    cout << "Enter new name: ";
-    getline(cin, newName);
-
-    cout << "Enter new description: ";
-    getline(cin, newDescription);
-
-    cout << "Enter new rating (0-5): ";
-    cin >> newRating;
-
-    cout << "Enter new price: ";
-    cin >> newPrice;
-
-    cin.ignore();
-
-    cout << "Enter new historical period: ";
-    std::getline(std::cin, newHistoricalPeriod);
-
-    cout << "Has guide? (y/n): ";
-    cin >> guideChoice;
-
-    cin.ignore();
-
+    cout << "Enter new name(current: " << getName() << "): ";
+    std::getline(cin, newName);
     setName(newName);
+
+    cout << "Enter new description(current: " << getDescription() << "): ";
+    std::getline(cin, newDescription);
     setDescription(newDescription);
-    setRating(newRating);
-    setPrice(newPrice);
+
+   while (true) {
+        cout << "Enter new rating (0-5) (current: " << getRating() << "): ";
+        
+        if (!(cin >> newRating)) {
+            cin.clear();
+            cin.ignore(1000, '\n');
+            cout << "Invalid input. Try again.\n";
+        }
+        else {
+            setRating(newRating);
+            cin.ignore(1000, '\n');
+            break;
+        }
+    }
+
+    while (true) {
+        cout << "Enter new price (current: " << getPrice() << "): ";
+        
+        if (!(cin >> newPrice)) {
+            cin.clear();
+            cin.ignore(1000, '\n');
+            cout << "Invalid input. Try again.\n";
+        }
+        else {
+            setPrice(newPrice);
+            cin.ignore(1000, '\n');
+            break;
+        }
+    }
+
+    cout << "Enter new historical period(current: " << getHistoricalPeriod() << "): ";
+    std::getline(std::cin, newHistoricalPeriod);
     setHistoricalPeriod(newHistoricalPeriod);
 
-    if (guideChoice == 'y' || guideChoice == 'Y') {
-        setHasGuide(true);
-    } else if (guideChoice == 'n' || guideChoice == 'N') {
-        setHasGuide(false);
-    } else {
-        throw std::invalid_argument("Guide choice must be y or n.");
+    cout << "Is there a guide available? (y/n) (current: " << (getHasGuide() ? "Yes" : "No") << "): ";
+    while (true) {
+        cin >> guideChoice;
+        if (guideChoice == 'y' || guideChoice == 'Y') {
+            setHasGuide(true);
+            break;
+        }
+        else if (guideChoice == 'n' || guideChoice == 'N') {
+            setHasGuide(false);
+            break;
+        }
+        else {
+            cout << "Invalid input. Please enter 'y' or 'n': ";
+        }
     }
+    cin.ignore(1000, '\n');
 }
