@@ -7,7 +7,12 @@ namespace TouristObjFactory {
 
 enum TObject { CW, EP, F, GH, L, R, Unknown };
 
-TObject strToTObj(const std::string& str);
+struct TObjInfo {
+    TObject type;
+    std::size_t dataLength;
+};
+
+TObjInfo strToTObjInfo(const std::string& str);
 
 std::vector<std::string> getSingleTObj(std::vector<std::string>& touristObjData);
 

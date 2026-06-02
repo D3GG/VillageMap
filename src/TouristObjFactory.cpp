@@ -10,45 +10,39 @@
 
 namespace TouristObjFactory {
 
-TObject strToTObj(const std::string& str) {
+TObjInfo strToTObjInfo(const std::string& str) {
     if (str == "CraftWorkshop") {
-        return CW;
+        return {CW, 8};
     }
     if (str == "EcoPath") {
-        return EP;
+        return {EP, 9};
     }
     if (str == "Festival") {
-        return F;
+        return {F, 9};
     }
     if (str == "GuestHouse") {
-        return GH;
+        return {GH, 9};
     }
     if (str == "Landmark") {
-        return L;
+        return {L, 8};
     }
     if (str == "Restaurant") {
-        return R;
+        return {R, 8};
     }
 
-    return Unknown;
+    return {Unknown, 0};
 }
 
 std::vector<std::string> getSingleTObj(std::vector<std::string>& touristObjData) {
     std::vector<std::string> singleObjData;
     std::vector<std::string> leftOverData;
-    bool finishedExtractingData = false;
+    TObjInfo info = strToTObjInfo(touristObjData.at(0));
+
+    if (touristObjData.size() < info.dataLength)
+        throw std::invalid_argument("something something");
 
     for (std::size_t i = 0; i < touristObjData.size(); i++) {
-        if (i == 0 && strToTObj(touristObjData.at(i)) != Unknown) {
-            singleObjData.push_back(touristObjData.at(i));
-            continue;
-        }
-        if (strToTObj(touristObjData.at(i)) != Unknown && finishedExtractingData == false) {
-            finishedExtractingData = true;
-            leftOverData.push_back(touristObjData.at(i));
-            continue;
-        }
-        if (finishedExtractingData == false) {
+        if (i < info.dataLength) {
             singleObjData.push_back(touristObjData.at(i));
             continue;
         }
@@ -63,7 +57,7 @@ std::vector<std::string> getSingleTObj(std::vector<std::string>& touristObjData)
 TouristObject* ChildObjFactory(std::vector<std::string>& touristObjData) {
 
     std::vector<std::string> singleObjData = getSingleTObj(touristObjData);
-    switch (strToTObj(singleObjData.at(0))) {
+    switch (strToTObjInfo(singleObjData.at(0)).type) {
     case CW:
         if (singleObjData.size() != 8)
             throw std::invalid_argument(
@@ -107,7 +101,7 @@ TouristObject* ChildObjFactory(std::vector<std::string>& touristObjData) {
     case L:
         if (singleObjData.size() != 8)
             throw std::invalid_argument(
-                "Invalid amount of data for NA Child. Expected size: 8, Actual Size: " +
+                "Invalid amount of data for Landmark Child. Expected size: 8, Actual Size: " +
                 std::to_string(singleObjData.size()));
         return new Landmark(std::stoi(singleObjData.at(1)), singleObjData.at(2),
                             singleObjData.at(3), std::stod(singleObjData.at(4)),
