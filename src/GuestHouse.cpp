@@ -115,7 +115,12 @@ void GuestHouse::updateFromInput() {
             cin.clear();
             cin.ignore(1000, '\n');
             cout << "Invalid input. Try again.\n";
-        } else {
+        }
+        else if (newRating < 0.0 || newRating > 5.0) {
+            cin.ignore(1000, '\n');
+            cout << "Rating must be between 0 and 5. Try again.\n";
+        } 
+        else {
             setRating(newRating);
             cin.ignore(1000, '\n');
             break;

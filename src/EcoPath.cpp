@@ -129,12 +129,16 @@ void EcoPath::updateFromInput() {
 
     while (true) {
         cout << "Enter new rating (0-5) (current: " << getRating() << "): ";
-        
+
         if (!(cin >> newRating)) {
             cin.clear();
             cin.ignore(1000, '\n');
             cout << "Invalid input. Try again.\n";
         }
+        else if (newRating < 0.0 || newRating > 5.0) {
+            cin.ignore(1000, '\n');
+            cout << "Rating must be between 0 and 5. Try again.\n";
+        } 
         else {
             setRating(newRating);
             cin.ignore(1000, '\n');
