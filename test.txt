@@ -1,0 +1,7 @@
+VillageMapSettlementV1
+text
+shsah
+1234576
+test test test
+OBJECTS
+EcoPath|1|Stua|iuasd asjdj iasud|0|12.3|129|60|69

@@ -91,6 +91,10 @@ bool Settlement::removeObjectById(int id) {
     return false;
 }
 
+const std::vector<TouristObject*>& Settlement::getObjects() const {
+    return objects;
+}
+
 TouristObject* Settlement::findObjectById(int id) const {
     for (TouristObject* object : objects) {
         if (object->getId() == id) {

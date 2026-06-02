@@ -5,25 +5,23 @@
 
 namespace Interface {
 
-CommandInfo commands[COMMAND_COUNT] = {
-    {"create", CommandType::Create, "Creates a new file", "create <file>", 1, 1, MenuStates::Base},
-    {"load", CommandType::Load, "Loads an existing file", "load <file>", 1, 1, MenuStates::Base},
-    {"help", CommandType::Help,
-     "Print all available commands and their usage or just for a specified command",
-     "help or help <command>", 0, 1, MenuStates::Both},
-    {"exit", CommandType::Exit, "Exits the program", "exit", 0, 0, MenuStates::Base},
-    {"info", CommandType::Info, "Print information about the Settlement", "info", 0, 0,
-     MenuStates::Inner},
-    {"add", CommandType::Add, "Tbd", "add <type>", 1, 1, MenuStates::Inner},
-    {"list", CommandType::List, "Tbd", "list", 0, 0, MenuStates::Inner},
-    {"show", CommandType::Show, "Tbd", "show <id>", 1, 1, MenuStates::Inner},
-    {"delete", CommandType::Delete, "Tbd", "delete <id>", 1, 1, MenuStates::Inner},
-    {"update", CommandType::Update, "Tbd", "update <id>", 1, 1, MenuStates::Inner},
-    {"search", CommandType::Search, "Tbd", "search <text>", 1, 1, MenuStates::Inner},
-    {"filter", CommandType::Filter, "Tbd", "filter <criteria>", 1, 1, MenuStates::Inner},
-    {"report", CommandType::Report, "Tbd", "report", 0, 0, MenuStates::Inner},
-    {"save", CommandType::Save, "Saves the current file", "save", 0, 0, MenuStates::Inner},
-    {"close", CommandType::Close, "Closes the current file", "close", 0, 0, MenuStates::Inner}};
+CommandInfo commands[] = {
+    {"create", Create, "Creates a new settlement file", "create <file>", 1, 1, Base},
+    {"load", Load, "Loads an existing settlement file", "load <file>", 1, 1, Base},
+    {"help", Help, "Prints all commands or help for one command", "help or help <command>", 0, 1,
+     Both},
+    {"exit", Exit, "Exits the program", "exit", 0, 0, Both},
+    {"info", Info, "Prints information about the current settlement", "info", 0, 0, Inner},
+    {"add", Add, "Adds a tourist object", "add <type>", 1, 1, Inner},
+    {"list", List, "Lists all tourist objects", "list", 0, 0, Inner},
+    {"show", Show, "Shows one tourist object by ID", "show <id>", 1, 1, Inner},
+    {"delete", Delete, "Deletes one tourist object by ID", "delete <id>", 1, 1, Inner},
+    {"update", Update, "Updates one tourist object by ID", "update <id>", 1, 1, Inner},
+    {"search", Search, "Searches by name, description, or category", "search <text>", 1, 1, Inner},
+    {"filter", Filter, "Filters objects", "filter <criteria>", 1, 1, Inner},
+    {"report", Report, "Generates settlement statistics", "report", 0, 0, Inner},
+    {"save", Save, "Saves the current settlement", "save", 0, 0, Inner},
+    {"close", Close, "Closes the current settlement", "close", 0, 0, Inner}};
 
 std::vector<std::string> tokenize(const std::string& inputLn) {
     std::vector<std::string> output;

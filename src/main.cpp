@@ -1,6 +1,6 @@
-#include <iostream>
+#include "Application.h"
 
 int main() {
-    std::cout << "VillageMap CLI started.\n";
+    Application::run();
     return 0;
 }

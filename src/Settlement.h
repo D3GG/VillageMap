@@ -16,8 +16,7 @@ public:
     Settlement(const std::string& name, const std::string& region, int population,
                const std::string& description);
 
-     ~Settlement();
-
+    ~Settlement();
 
     std::string getName() const;
     std::string getRegion() const;
@@ -31,6 +30,7 @@ public:
 
     void addObject(TouristObject* object);
     bool removeObjectById(int id);
+    const std::vector<TouristObject*>& getObjects() const;
     TouristObject* findObjectById(int id) const;
 
     void listObjects() const;
