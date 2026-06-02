@@ -35,4 +35,6 @@ public:
 
     void listObjects() const;
     void showObjectById(int id) const;
+
+    std::string serialize() const;
 };

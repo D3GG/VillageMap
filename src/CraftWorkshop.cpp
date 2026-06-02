@@ -9,13 +9,11 @@ using std::cout;
 using std::endl;
 using std::string;
 
-CraftWorkshop::CraftWorkshop(int id, const std::string& name, const std::string& description, double rating,
-                    double price, const std::string& craftType, bool hasDemonstration)
-    : TouristObject(id, name, description, rating, price), craftType(craftType),
-      hasDemonstration(hasDemonstration) {
-    if (craftType.empty()) {
-        throw std::invalid_argument("Craft type cannot be empty.");
-    }
+CraftWorkshop::CraftWorkshop(int id, const string& name, const string& description, double rating,
+                             double price, const string& craftType, bool hasDemonstration)
+    : TouristObject(id, name, description, rating, price) {
+    setCraftType(craftType);
+    setHasDemonstration(hasDemonstration);
 }
 
 std::string CraftWorkshop::getCraftType() const {
@@ -39,7 +37,7 @@ void CraftWorkshop::setHasDemonstration(bool hasDemonstration) {
 }
 
 std::string CraftWorkshop::getCategory() const {
-    return "Craft Workshop";
+    return "CraftWorkshop";
 }
 
 void CraftWorkshop::printShortInfo() const {
@@ -64,7 +62,7 @@ double CraftWorkshop::calculateAttractiveness() const {
     if (hasDemonstration) {
         score += 0.5;
     }
-    
+
     if (score > 5.0) {
         score = 5.0;
     }
@@ -96,13 +94,12 @@ void CraftWorkshop::updateFromInput() {
 
     while (true) {
         cout << "Enter new rating (0-5) (current: " << getRating() << "): ";
-        
+
         if (!(cin >> newRating)) {
             cin.clear();
             cin.ignore(1000, '\n');
             cout << "Invalid input. Try again.\n";
-        }
-        else {
+        } else {
             setRating(newRating);
             cin.ignore(1000, '\n');
             break;
@@ -111,13 +108,12 @@ void CraftWorkshop::updateFromInput() {
 
     while (true) {
         cout << "Enter new price (current: " << getPrice() << "): ";
-        
+
         if (!(cin >> newPrice)) {
             cin.clear();
             cin.ignore(1000, '\n');
             cout << "Invalid input. Try again.\n";
-        }
-        else {
+        } else {
             setPrice(newPrice);
             cin.ignore(1000, '\n');
             break;
@@ -128,7 +124,8 @@ void CraftWorkshop::updateFromInput() {
     std::getline(cin, newCraftType);
     setCraftType(newCraftType);
 
-    cout << "Does it have a demonstration? (y/n) (current: " << (hasDemonstration ? "Yes" : "No") << "): ";
+    cout << "Does it have a demonstration? (y/n) (current: " << (hasDemonstration ? "Yes" : "No")
+         << "): ";
     while (true) {
         cin >> newDemonstrationInput;
 

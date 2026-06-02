@@ -11,9 +11,10 @@ using std::string;
 
 GuestHouse::GuestHouse(int id, const string& name, const string& description, double rating,
                        double price, int capacity, double pricePerNight, bool hasParking)
-    : TouristObject(id, name, description, rating, price), hasParking(hasParking) {
+    : TouristObject(id, name, description, rating, price){
     setCapacity(capacity);
     setPricePerNight(pricePerNight);
+    setHasParking(hasParking);
 }
 
 int GuestHouse::getCapacity() const {
