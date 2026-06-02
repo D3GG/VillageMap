@@ -119,36 +119,76 @@ void EcoPath::updateFromInput() {
     string newDifficulty;
     double newDuration;
 
-    cout << "Enter new name: ";
-    getline(cin, newName);
-
-    cout << "Enter new description: ";
-    getline(cin, newDescription);
-
-    cout << "Enter new rating (0-5): ";
-    cin >> newRating;
-
-    cout << "Enter new price: ";
-    cin >> newPrice;
-
-    cout << "Enter new length in km: ";
-    cin >> newLength;
-
-    cin.ignore();
-
-    cout << "Enter new difficulty: ";
-    getline(cin, newDifficulty);
-
-    cout << "Enter new duration in hours: ";
-    cin >> newDuration;
-
-    cin.ignore();
-
+    cout << "Enter new name (current: " << getName() << "): ";
+    std::getline(cin, newName);
     setName(newName);
+
+    cout << "Enter new description (current: " << getDescription() << "): ";
+    std::getline(cin, newDescription);
     setDescription(newDescription);
-    setRating(newRating);
-    setPrice(newPrice);
-    setLength(newLength);
+
+    while (true) {
+        cout << "Enter new rating (0-5) (current: " << getRating() << "): ";
+        
+        if (!(cin >> newRating)) {
+            cin.clear();
+            cin.ignore(1000, '\n');
+            cout << "Invalid input. Try again.\n";
+        }
+        else {
+            setRating(newRating);
+            cin.ignore(1000, '\n');
+            break;
+        }
+    }
+
+    while (true) {
+        cout << "Enter new price (current: " << getPrice() << "): ";
+        
+        if (!(cin >> newPrice)) {
+            cin.clear();
+            cin.ignore(1000, '\n');
+            cout << "Invalid input. Try again.\n";
+        }
+        else {
+            setPrice(newPrice);
+            cin.ignore(1000, '\n');
+            break;
+        }
+    }
+
+    while (true) {
+        cout << "Enter new length in km (current: " << getLength() << "): ";
+        
+        if (!(cin >> newLength)) {
+            cin.clear();
+            cin.ignore(1000, '\n');
+            cout << "Invalid input. Try again.\n";
+        }
+        else {
+            setLength(newLength);
+            cin.ignore(1000, '\n');
+            break;
+        }
+    }
+
+    cout << "Enter new difficulty (current: " << getDifficulty() << "): ";
+    std::getline(cin, newDifficulty);
     setDifficulty(newDifficulty);
-    setDuration(newDuration);
+
+    while (true) {
+        cout << "Enter new duration in hours (current: " << getDuration() << "): ";
+        
+        if (!(cin >> newDuration)) {
+            cin.clear();
+            cin.ignore(1000, '\n');
+            cout << "Invalid input. Try again.\n";
+        }
+        else {
+            setDuration(newDuration);
+            cin.ignore(1000, '\n');
+            break;
+        }
+    }
+    cin.ignore(1000, '\n');
 }
