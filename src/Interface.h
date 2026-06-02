@@ -39,7 +39,9 @@ struct CommandInfo {
     MenuStates allowedStates;
 };
 
-extern CommandInfo commands[];
+constexpr std::size_t COMMAND_COUNT = 15;
+
+extern CommandInfo commands[COMMAND_COUNT];
 
 struct ParsedCommand {
     CommandType type;
@@ -50,15 +52,8 @@ MenuStates stringToMenuState(const std::string token);
 
 CommandType stringToCmdType(const std::string token);
 
-// sanitizer - mby
-
-// tokenizer
 std::vector<std::string> tokenize(const std::string& inputLn);
 
-// parser
 ParsedCommand parseTokens(const std::vector<std::string>& tokens, MenuStates state);
-
-// executor
-ExecutionResult executeCommand(ParsedCommand command, MenuStates state);
 
 } // namespace Interface
