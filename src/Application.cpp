@@ -218,16 +218,16 @@ Interface::ExecutionResult executeCommand(Interface::ParsedCommand command,
         return Interface::Continue;
 
     case Interface::Add: {
-    ensureSettlementOpen();
+        ensureSettlementOpen();
 
-    int nextId = getNextObjectId();
+        int nextId = getNextObjectId();
 
-    currentSettlement->addObject(
-        TouristObjFactory::createFromInput(command.args.at(0), nextId)
-    );
+        currentSettlement->addObject(
+            TouristObjFactory::createFromInput(command.args.at(0), nextId)
+        );
 
-    std::cout << "Tourist object added successfully.\n";
-    return Interface::Continue;
+        std::cout << "Tourist object added successfully.\n";
+        return Interface::Continue;
     }
 
     case Interface::List:
