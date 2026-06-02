@@ -9,16 +9,12 @@ using std::cout;
 using std::endl;
 using std::string;
 
-Festival::Festival(int id, const std::string& name, const std::string& description, double rating,
-                    double price, const std::string& date, const std::string& theme, bool isAnnual)
-    : TouristObject(id, name, description, rating, price), date(date), theme(theme),
-      isAnnual(isAnnual) {
-    if (date.empty()) {
-        throw std::invalid_argument("Date cannot be empty.");
-    }
-    if (theme.empty()) {
-        throw std::invalid_argument("Theme cannot be empty.");
-    }
+Festival::Festival(int id, const string& name, const string& description, double rating,
+                   double price, const string& date, const string& theme, bool isAnnual)
+    : TouristObject(id, name, description, rating, price){
+    setDate(date);
+    setTheme(theme);
+    setIsAnnual(isAnnual);
 }
 
 std::string Festival::getDate() const {
@@ -112,13 +108,12 @@ void Festival::updateFromInput() {
 
     while (true) {
         cout << "Enter new rating (0-5) (current: " << getRating() << "): ";
-        
+
         if (!(cin >> newRating)) {
             cin.clear();
             cin.ignore(1000, '\n');
             cout << "Invalid input. Try again.\n";
-        }
-        else {
+        } else {
             setRating(newRating);
             cin.ignore(1000, '\n');
             break;
@@ -127,13 +122,12 @@ void Festival::updateFromInput() {
 
     while (true) {
         cout << "Enter new price (current: " << getPrice() << "): ";
-        
+
         if (!(cin >> newPrice)) {
             cin.clear();
             cin.ignore(1000, '\n');
             cout << "Invalid input. Try again.\n";
-        }
-        else {
+        } else {
             setPrice(newPrice);
             cin.ignore(1000, '\n');
             break;

@@ -11,8 +11,9 @@ using std::string;
 
 Restaurant::Restaurant(int id, const string& name, const string& description, double rating,
                        double price, const string& cuisineType, bool hasLocalFood)
-    : TouristObject(id, name, description, rating, price), hasLocalFood(hasLocalFood) {
+    : TouristObject(id, name, description, rating, price){
     setCuisineType(cuisineType);
+    setHasLocalFood(hasLocalFood);
 }
 
 std::string Restaurant::getCuisineType() const {

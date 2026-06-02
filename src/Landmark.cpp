@@ -11,8 +11,9 @@ using std::string;
 
 Landmark::Landmark(int id, const std::string& name, const std::string& description, double rating,
                    double price, const std::string& historicalPeriod, bool hasGuide)
-    : TouristObject(id, name, description, rating, price), hasGuide(hasGuide) {
+    : TouristObject(id, name, description, rating, price){
     setHistoricalPeriod(historicalPeriod);
+    setHasGuide(hasGuide);
 }
 
 std::string Landmark::getHistoricalPeriod() const {
