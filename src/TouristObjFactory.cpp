@@ -104,10 +104,12 @@ struct CommonFields {
     double price;
 };
 
-CommonFields readCommonFields() {
+CommonFields readCommonFields(int id) {
     CommonFields fields;
 
-    fields.id = readInt("ID: ");
+    fields.id = id;
+    std::cout << "ID: " << fields.id << '\n';
+
     fields.name = readRequiredLine("Name: ");
     fields.description = readRequiredLine("Description: ");
     fields.rating = readDouble("Rating (0-5): ");
@@ -222,9 +224,10 @@ TouristObject* ChildObjFactory(std::vector<std::string>& touristObjData) {
     }
 }
 
-TouristObject* createFromInput(const std::string& type) {
+TouristObject* createFromInput(const std::string& type, int id) {
     std::string normalizedType = toLower(type);
-    CommonFields fields = readCommonFields();
+
+    CommonFields fields = readCommonFields(id);
 
     if (normalizedType == "landmark") {
         std::string historicalPeriod = readRequiredLine("Historical period: ");

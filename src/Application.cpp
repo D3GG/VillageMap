@@ -25,6 +25,18 @@ void ensureSettlementOpen() {
     }
 }
 
+int getNextObjectId() {
+    ensureSettlementOpen();
+
+    int id = 1;
+
+    while (currentSettlement->findObjectById(id) != nullptr) {
+        id++;
+    }
+
+    return id;
+}
+
 int parseIntArgument(const std::string& text, const std::string& argumentName) {
     std::size_t processed = 0;
     int value = 0;
@@ -205,11 +217,18 @@ Interface::ExecutionResult executeCommand(Interface::ParsedCommand command,
         currentSettlement->printInfo();
         return Interface::Continue;
 
-    case Interface::Add:
-        ensureSettlementOpen();
-        currentSettlement->addObject(TouristObjFactory::createFromInput(command.args.at(0)));
-        std::cout << "Tourist object added successfully.\n";
-        return Interface::Continue;
+    case Interface::Add: {
+    ensureSettlementOpen();
+
+    int nextId = getNextObjectId();
+
+    currentSettlement->addObject(
+        TouristObjFactory::createFromInput(command.args.at(0), nextId)
+    );
+
+    std::cout << "Tourist object added successfully.\n";
+    return Interface::Continue;
+    }
 
     case Interface::List:
         ensureSettlementOpen();

@@ -16,7 +16,7 @@ TObjInfo strToTObjInfo(const std::string& str);
 
 std::vector<std::string> getSingleTObj(std::vector<std::string>& touristObjData);
 
-TouristObject* createFromInput(const std::string& type);
+TouristObject* createFromInput(const std::string& type, int id);
 
 TouristObject* ChildObjFactory(std::vector<std::string>& touristObjData);
 
