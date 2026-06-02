@@ -126,11 +126,15 @@ void Settlement::showObjectById(int id) const {
 std::string Settlement::serialize() const {
     std::ostringstream out;
 
-    out << "Settlement" << "|"
-        << name << "|"
-        << region << "|"
-        << population << "|"
-        << description;
+    out << "Settlement" << '|'
+        << name << '|'
+        << region << '|'
+        << population << '|'
+        << description << '|';
+
+    for(std::size_t i = 0; i < objects.size(); i++){
+        out << objects.at(i)->serialize();
+    }    
 
     return out.str();
 }
