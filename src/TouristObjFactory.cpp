@@ -1,4 +1,5 @@
 #include "TouristObjFactory.h"
+
 #include "CraftWorkshop.h"
 #include "EcoPath.h"
 #include "Festival.h"
@@ -6,26 +7,138 @@
 #include "Landmark.h"
 #include "Restaurant.h"
 
+#include <algorithm>
+#include <cctype>
+#include <iostream>
 #include <stdexcept>
+#include <string>
+#include <vector>
 
 namespace TouristObjFactory {
+
+namespace {
+
+std::string toLower(std::string value) {
+    std::transform(value.begin(), value.end(), value.begin(),
+                   [](unsigned char ch) { return static_cast<char>(std::tolower(ch)); });
+
+    return value;
+}
+
+std::string readRequiredLine(const std::string& prompt) {
+    while (true) {
+        std::cout << prompt;
+
+        std::string value;
+        if (!std::getline(std::cin, value)) {
+            throw std::runtime_error("Input closed.");
+        }
+
+        if (!value.empty()) {
+            return value;
+        }
+
+        std::cout << "Value cannot be empty.\n";
+    }
+}
+
+int readInt(const std::string& prompt) {
+    while (true) {
+        std::string value = readRequiredLine(prompt);
+
+        try {
+            std::size_t processed = 0;
+            int number = std::stoi(value, &processed);
+
+            if (processed != value.size()) {
+                throw std::invalid_argument("Invalid integer.");
+            }
+
+            return number;
+        } catch (...) {
+            std::cout << "Please enter a valid integer.\n";
+        }
+    }
+}
+
+double readDouble(const std::string& prompt) {
+    while (true) {
+        std::string value = readRequiredLine(prompt);
+
+        try {
+            std::size_t processed = 0;
+            double number = std::stod(value, &processed);
+
+            if (processed != value.size()) {
+                throw std::invalid_argument("Invalid number.");
+            }
+
+            return number;
+        } catch (...) {
+            std::cout << "Please enter a valid number.\n";
+        }
+    }
+}
+
+bool readBool(const std::string& prompt) {
+    while (true) {
+        std::string value = toLower(readRequiredLine(prompt));
+
+        if (value == "y" || value == "yes" || value == "1" || value == "true") {
+            return true;
+        }
+
+        if (value == "n" || value == "no" || value == "0" || value == "false") {
+            return false;
+        }
+
+        std::cout << "Please enter y/n.\n";
+    }
+}
+
+struct CommonFields {
+    int id;
+    std::string name;
+    std::string description;
+    double rating;
+    double price;
+};
+
+CommonFields readCommonFields() {
+    CommonFields fields;
+
+    fields.id = readInt("ID: ");
+    fields.name = readRequiredLine("Name: ");
+    fields.description = readRequiredLine("Description: ");
+    fields.rating = readDouble("Rating (0-5): ");
+    fields.price = readDouble("Price: ");
+
+    return fields;
+}
+
+} // namespace
 
 TObjInfo strToTObjInfo(const std::string& str) {
     if (str == "CraftWorkshop") {
         return {CW, 8};
     }
+
     if (str == "EcoPath") {
         return {EP, 9};
     }
+
     if (str == "Festival") {
         return {F, 9};
     }
+
     if (str == "GuestHouse") {
         return {GH, 9};
     }
+
     if (str == "Landmark") {
         return {L, 8};
     }
+
     if (str == "Restaurant") {
         return {R, 8};
     }
@@ -34,95 +147,138 @@ TObjInfo strToTObjInfo(const std::string& str) {
 }
 
 std::vector<std::string> getSingleTObj(std::vector<std::string>& touristObjData) {
-    std::vector<std::string> singleObjData;
-    std::vector<std::string> leftOverData;
+    if (touristObjData.empty()) {
+        throw std::invalid_argument("No tourist object data available.");
+    }
+
     TObjInfo info = strToTObjInfo(touristObjData.at(0));
 
-    if (touristObjData.size() < info.dataLength)
-        throw std::invalid_argument("something something");
+    if (info.type == Unknown) {
+        throw std::invalid_argument("Unsupported tourist object type: " + touristObjData.at(0));
+    }
+
+    if (touristObjData.size() < info.dataLength) {
+        throw std::invalid_argument("Invalid amount of tourist object data.");
+    }
+
+    std::vector<std::string> singleObjData;
+    std::vector<std::string> leftOverData;
 
     for (std::size_t i = 0; i < touristObjData.size(); i++) {
         if (i < info.dataLength) {
             singleObjData.push_back(touristObjData.at(i));
-            continue;
+        } else {
+            leftOverData.push_back(touristObjData.at(i));
         }
-
-        leftOverData.push_back(touristObjData.at(i));
     }
 
     touristObjData = leftOverData;
+
     return singleObjData;
 }
 
 TouristObject* ChildObjFactory(std::vector<std::string>& touristObjData) {
-
     std::vector<std::string> singleObjData = getSingleTObj(touristObjData);
+
     switch (strToTObjInfo(singleObjData.at(0)).type) {
     case CW:
-        if (singleObjData.size() != 8)
-            throw std::invalid_argument(
-                "Invalid amount of data for CraftWorkshop Child. Expected size: 8, Actual Size: " +
-                std::to_string(singleObjData.size()));
         return new CraftWorkshop(std::stoi(singleObjData.at(1)), singleObjData.at(2),
                                  singleObjData.at(3), std::stod(singleObjData.at(4)),
                                  std::stod(singleObjData.at(5)), singleObjData.at(6),
                                  std::stoi(singleObjData.at(7)) != 0);
-        break;
+
     case EP:
-        if (singleObjData.size() != 9)
-            throw std::invalid_argument(
-                "Invalid amount of data for EcoPath Child. Expected size: 9, Actual Size: " +
-                std::to_string(singleObjData.size()));
         return new EcoPath(std::stoi(singleObjData.at(1)), singleObjData.at(2), singleObjData.at(3),
                            std::stod(singleObjData.at(4)), std::stod(singleObjData.at(5)),
                            std::stod(singleObjData.at(6)), singleObjData.at(7),
                            std::stod(singleObjData.at(8)));
-        break;
+
     case F:
-        if (singleObjData.size() != 9)
-            throw std::invalid_argument(
-                "Invalid amount of data for Festival Child. Expected size: 9, Actual Size: " +
-                std::to_string(singleObjData.size()));
         return new Festival(std::stoi(singleObjData.at(1)), singleObjData.at(2),
                             singleObjData.at(3), std::stod(singleObjData.at(4)),
                             std::stod(singleObjData.at(5)), singleObjData.at(6),
                             singleObjData.at(7), std::stoi(singleObjData.at(8)) != 0);
-        break;
+
     case GH:
-        if (singleObjData.size() != 9)
-            throw std::invalid_argument(
-                "Invalid amount of data for GuestHouse Child. Expected size: 9, Actual Size: " +
-                std::to_string(singleObjData.size()));
         return new GuestHouse(std::stoi(singleObjData.at(1)), singleObjData.at(2),
                               singleObjData.at(3), std::stod(singleObjData.at(4)),
                               std::stod(singleObjData.at(5)), std::stoi(singleObjData.at(6)),
                               std::stod(singleObjData.at(7)), std::stoi(singleObjData.at(8)) != 0);
-        break;
+
     case L:
-        if (singleObjData.size() != 8)
-            throw std::invalid_argument(
-                "Invalid amount of data for Landmark Child. Expected size: 8, Actual Size: " +
-                std::to_string(singleObjData.size()));
         return new Landmark(std::stoi(singleObjData.at(1)), singleObjData.at(2),
                             singleObjData.at(3), std::stod(singleObjData.at(4)),
                             std::stod(singleObjData.at(5)), singleObjData.at(6),
                             std::stoi(singleObjData.at(7)) != 0);
-        break;
+
     case R:
-        if (singleObjData.size() != 8)
-            throw std::invalid_argument(
-                "Invalid amount of data for Restaurant Child. Expected size: 8, Actual Size: " +
-                std::to_string(singleObjData.size()));
         return new Restaurant(std::stoi(singleObjData.at(1)), singleObjData.at(2),
                               singleObjData.at(3), std::stod(singleObjData.at(4)),
                               std::stod(singleObjData.at(5)), singleObjData.at(6),
                               std::stoi(singleObjData.at(7)) != 0);
-        break;
 
     default:
-        throw std::invalid_argument("Unsupported tourist object type");
-        break;
+        throw std::invalid_argument("Unsupported tourist object type.");
     }
+}
+
+TouristObject* createFromInput(const std::string& type) {
+    std::string normalizedType = toLower(type);
+    CommonFields fields = readCommonFields();
+
+    if (normalizedType == "landmark") {
+        std::string historicalPeriod = readRequiredLine("Historical period: ");
+        bool hasGuide = readBool("Has guide? (y/n): ");
+
+        return new Landmark(fields.id, fields.name, fields.description, fields.rating, fields.price,
+                            historicalPeriod, hasGuide);
+    }
+
+    if (normalizedType == "restaurant") {
+        std::string cuisineType = readRequiredLine("Cuisine type: ");
+        bool hasLocalFood = readBool("Has local food? (y/n): ");
+
+        return new Restaurant(fields.id, fields.name, fields.description, fields.rating,
+                              fields.price, cuisineType, hasLocalFood);
+    }
+
+    if (normalizedType == "guesthouse" || normalizedType == "guest_house") {
+        int capacity = readInt("Capacity: ");
+        double pricePerNight = readDouble("Price per night: ");
+        bool hasParking = readBool("Has parking? (y/n): ");
+
+        return new GuestHouse(fields.id, fields.name, fields.description, fields.rating,
+                              fields.price, capacity, pricePerNight, hasParking);
+    }
+
+    if (normalizedType == "ecopath" || normalizedType == "eco_path") {
+        double length = readDouble("Length in km: ");
+        std::string difficulty = readRequiredLine("Difficulty: ");
+        double duration = readDouble("Duration in hours: ");
+
+        return new EcoPath(fields.id, fields.name, fields.description, fields.rating, fields.price,
+                           length, difficulty, duration);
+    }
+
+    if (normalizedType == "festival") {
+        std::string date = readRequiredLine("Date: ");
+        std::string theme = readRequiredLine("Theme: ");
+        bool isAnnual = readBool("Is annual? (y/n): ");
+
+        return new Festival(fields.id, fields.name, fields.description, fields.rating, fields.price,
+                            date, theme, isAnnual);
+    }
+
+    if (normalizedType == "craftworkshop" || normalizedType == "craft_workshop") {
+        std::string craftType = readRequiredLine("Craft type: ");
+        bool hasDemonstration = readBool("Has demonstration? (y/n): ");
+
+        return new CraftWorkshop(fields.id, fields.name, fields.description, fields.rating,
+                                 fields.price, craftType, hasDemonstration);
+    }
+
+    throw std::invalid_argument(
+        "Unknown type. Use: landmark, restaurant, guesthouse, ecopath, festival, craftworkshop.");
 }
 
 } // namespace TouristObjFactory

@@ -1,16 +1,20 @@
 #pragma once
 
 #include "Settlement.h"
-#include <fstream>
+
+#include <memory>
+#include <string>
+#include <vector>
 
 namespace FileManager {
 
-void createFile(std::string fileName);
+void createFile(const std::string& fileName);
 
 std::vector<std::string> removeDelimAndTokenize(const std::string& input,
                                                 std::vector<std::string>& settlementData);
-Settlement loadFile(std::string fileName);
 
-void saveFile(std::string fileName, Settlement& settlement);
+std::unique_ptr<Settlement> loadFile(const std::string& fileName);
+
+void saveFile(const std::string& fileName, const Settlement& settlement);
 
 } // namespace FileManager

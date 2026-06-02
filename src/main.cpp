@@ -1,6 +1,5 @@
 #include "Application.h"
 
 int main() {
-    Application::run();
-    return 0;
+    return Application::run();
 }

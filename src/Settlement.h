@@ -1,6 +1,8 @@
 #pragma once
+
 #include "TouristObject.h"
 
+#include <cstddef>
 #include <string>
 #include <vector>
 
@@ -28,13 +30,21 @@ public:
     void setPopulation(int population);
     void setDescription(const std::string& description);
 
+    void printInfo() const;
+
     void addObject(TouristObject* object);
     bool removeObjectById(int id);
-    const std::vector<TouristObject*>& getObjects() const;
     TouristObject* findObjectById(int id) const;
 
     void listObjects() const;
     void showObjectById(int id) const;
+
+    void searchObjects(const std::string& text) const;
+    void filterObjectsByCategory(const std::string& category) const;
+
+    std::size_t getObjectCount() const;
+    double getAverageRating() const;
+    double getTourismPotentialScore() const;
 
     std::string serialize() const;
 };
