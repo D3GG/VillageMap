@@ -37,7 +37,7 @@ void CraftWorkshop::setHasDemonstration(bool hasDemonstration) {
 }
 
 std::string CraftWorkshop::getCategory() const {
-    return "Craft Workshop";
+    return "CraftWorkshop";
 }
 
 void CraftWorkshop::printShortInfo() const {
